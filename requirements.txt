@@ -1,6 +1,4 @@
---only-binary=orjson
 fastapi==0.85.0
 uvicorn==0.18.3
-pydantic==1.10.2
+pydantic==1.9.2
 anyio==3.7.1
-orjson==3.6.8
