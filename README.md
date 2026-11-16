@@ -14,13 +14,34 @@ cd emi-sip-calculator
 
 ### 2. Create and activate a virtual environment
 
+Create the venv:
+
 ```bash
 python -m venv venv
 ```
 
-- Windows (PowerShell): `venv\Scripts\Activate.ps1`
-- Windows (cmd): `venv\Scripts\activate.bat`
-- macOS / Linux: `source venv/bin/activate`
+Activate it (pick your terminal):
+
+**Windows – PowerShell**
+```powershell
+venv\Scripts\Activate.ps1
+```
+> If PowerShell says running scripts is disabled, run this once, then activate again:
+> ```powershell
+> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+> ```
+
+**Windows – Command Prompt (cmd)**
+```cmd
+venv\Scripts\activate.bat
+```
+
+**macOS / Linux**
+```bash
+source venv/bin/activate
+```
+
+When it's active you'll see `(venv)` at the start of your terminal prompt. To leave it later, run `deactivate`.
 
 ### 3. Install the requirements
 
