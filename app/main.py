@@ -1,9 +1,14 @@
 from fastapi import FastAPI
+from fastapi.responses import ORJSONResponse
 
 from app.schemas import EmiRequest, EmiResponse, SipRequest, SipResponse
 from app.services import calculate_emi, calculate_sip
 
-app = FastAPI(title="Finance Calculator API", version="1.0.0")
+app = FastAPI(
+    title="Finance Calculator API",
+    version="1.0.0",
+    default_response_class=ORJSONResponse,
+)
 
 
 @app.post("/emi", response_model=EmiResponse, response_model_exclude_none=True)
