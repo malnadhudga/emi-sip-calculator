@@ -3,8 +3,6 @@
 A small FastAPI service that calculates loan EMIs and SIP maturity values.
 See [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md) for what the project does and what each endpoint returns.
 
-> **Python version:** requires Python **3.8 – 3.10**. Installing on Python 3.11+ fails on purpose (`requires-python = ">=3.8,<3.11"` in `pyproject.toml`).
-
 ## Setup & Run
 
 ### 1. Clone the repository
@@ -27,14 +25,14 @@ python -m venv venv
 ### 3. Install the requirements
 
 ```bash
-pip install --upgrade pip
-pip install -r requirements.txt
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
 ### 4. Run the server
 
 ```bash
-uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload
 ```
 
 Open the interactive docs at http://127.0.0.1:8000/docs
