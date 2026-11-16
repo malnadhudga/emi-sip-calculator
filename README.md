@@ -1,7 +1,16 @@
 # EMI & SIP Calculator API
 
 A small FastAPI service that calculates loan EMIs and SIP maturity values.
-See [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md) for what the project does and what each endpoint returns.
+You send numbers as JSON, it validates them and returns the calculated result.
+
+## Project structure
+
+```text
+emi-sip-calculator/
+├── main.py            # FastAPI app, request/response models and routes
+├── functions.py       # the EMI and SIP formulas
+└── requirements.txt
+```
 
 ## Setup & Run
 
@@ -53,7 +62,48 @@ python -m pip install -r requirements.txt
 ### 4. Run the server
 
 ```bash
-python -m uvicorn app.main:app --reload
+python -m uvicorn main:app --reload
 ```
 
 Open the interactive docs at http://127.0.0.1:8000/docs
+
+## Endpoints
+
+### `POST /emi` — Loan EMI calculator
+
+Works out the fixed monthly instalment (EMI) for a loan, plus the total amount paid and total interest.
+
+| Field | Type | Rules | Meaning |
+|---|---|---|---|
+| `principal` | number | > 0 | Loan amount |
+| `annual_rate` | number | 0 – 50 | Interest rate, % per year |
+| `tenure_months` | integer | 1 – 600 | Loan length in months |
+| `include_schedule` | boolean | optional, default `false` | Also return a month-by-month repayment table |
+
+```json
+// request
+{"principal": 500000, "annual_rate": 9, "tenure_months": 60}
+
+// response
+{"emi": 10379.18, "total_payment": 622750.66, "total_interest": 122750.66}
+```
+
+### `POST /sip` — SIP maturity calculator
+
+Estimates what a monthly investment (SIP) grows to after a number of years at an expected annual return.
+
+| Field | Type | Rules | Meaning |
+|---|---|---|---|
+| `monthly_investment` | number | > 0 | Amount invested each month |
+| `expected_return` | number | 0 – 50 | Expected return, % per year |
+| `years` | integer | 1 – 50 | Investment period in years |
+
+```json
+// request
+{"monthly_investment": 5000, "expected_return": 12, "years": 10}
+
+// response
+{"invested_amount": 600000, "estimated_returns": 561695.38, "maturity_value": 1161695.38}
+```
+
+Invalid input (for example a negative `principal`) is rejected with HTTP **422** and a message naming the bad field.
