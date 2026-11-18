@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/emi-sip-calculator
+      VERSION: v${{ github.run_number }}
     steps:
       - uses: actions/checkout@v4
 
@@ -27,7 +28,7 @@ jobs:
           push: true
           tags: |
             ${{ env.IMAGE }}:latest
-            ${{ env.IMAGE }}:${{ github.sha }}
+            ${{ env.IMAGE }}:${{ env.VERSION }}
 
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.2.0
@@ -37,7 +38,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -e
-            docker pull ${{ env.IMAGE }}:${{ github.sha }}
+            docker pull ${{ env.IMAGE }}:${{ env.VERSION }}
             docker rm -f emi-sip || true
-            docker run -d --name emi-sip --restart unless-stopped -p 8000:8000 ${{ env.IMAGE }}:${{ github.sha }}
+            docker run -d --name emi-sip --restart unless-stopped -p 8000:8000 ${{ env.IMAGE }}:${{ env.VERSION }}
             docker image prune -af
