@@ -9,6 +9,8 @@ jobs:
   build-push-deploy:
     runs-on: ubuntu-latest
     env:
+      # Docker Hub image name in the form <dockerhub-username>/<repo-name>, e.g. johndoe/emi-sip-calculator.
+      # The username comes from the DOCKERHUB_USERNAME secret; change "emi-sip-calculator" to your own repo name.
       IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/emi-sip-calculator
       VERSION: v${{ github.run_number }}
     steps:
