@@ -39,6 +39,7 @@ jobs:
           script: |
             set -e
             sudo systemctl enable --now docker
+            sudo usermod -aG docker $USER
             sudo docker pull ${{ env.IMAGE }}:${{ env.VERSION }}
             sudo docker rm -f emi-sip || true
             sudo docker run -d --name emi-sip --restart unless-stopped -p 8000:8000 ${{ env.IMAGE }}:${{ env.VERSION }}
